@@ -1,0 +1,24 @@
+{
+  "name": "ai-whiteboard",
+  "version": "1.0.0",
+  "description": "Excalidraw + AI - turn sketches into specs, wireframes, and diagrams",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@excalidraw/excalidraw": "^0.17.0",
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "lucide-react": "^1.7.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
+  }
+}
