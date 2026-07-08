@@ -15,18 +15,16 @@
 
 ```bash
 npm install
-cp .env.example .env.local
-# Add your NVIDIA API key to .env.local
 npm run dev
 ```
 
-Open http://localhost:3000
+Open http://localhost:3000 — `NVIDIA_API_KEY` is in the committed `.env` file.
 
 ## Environment
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `NVIDIA_API_KEY` | Yes (default) | NVIDIA API key from [build.nvidia.com](https://build.nvidia.com) |
+| `NVIDIA_API_KEY` | Yes (default) | In committed `.env` |
 | `NVIDIA_MODEL` | No | Vision model (default: `meta/llama-3.2-90b-vision-instruct`) |
 | `ANTHROPIC_API_KEY` | No | Optional Claude fallback |
 | `ANTHROPIC_MODEL` | No | Claude model override |
