@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MODE_PROMPTS, buildElementContext } from '@/lib/prompts';
+import { buildDecipherContext } from '@/lib/prompts';
+import { parseJsonResponse } from '@/lib/parse-json';
 import { resolveProvider } from '@/lib/providers';
-import type { AIProviderId, ConversionMode } from '@/lib/types';
+import type { AIProviderId, ConversionMode, SketchElement, WhiteboardIR } from '@/lib/types';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,26 +12,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'image is required' }, { status: 400 });
     }
 
-    const conversionMode = (mode || 'spec') as ConversionMode;
-    const prompt = MODE_PROMPTS[conversionMode] || MODE_PROMPTS.spec;
-    const fullPrompt = `${prompt}\n\n${buildElementContext(elements || [])}`;
-
     const ai = resolveProvider(provider as AIProviderId | undefined);
-    const result = await ai.visionComplete({
+    const prompt = buildDecipherContext(
+      (elements || []) as SketchElement[],
+      (mode || 'spec') as ConversionMode
+    );
+
+    const raw = await ai.visionComplete({
       imageBase64: image,
-      prompt: fullPrompt,
+      prompt,
+      jsonMode: true,
       maxTokens: 4096,
     });
 
+    const ir = parseJsonResponse<WhiteboardIR>(raw);
+
     return NextResponse.json({
-      result,
+      ir,
       provider: ai.id,
       model: ai.model,
     });
   } catch (error) {
-    console.error('AI generation error:', error);
+    console.error('Decipher error:', error);
     return NextResponse.json(
-      { error: 'Failed to generate result: ' + (error as Error).message },
+      { error: 'Failed to decipher sketch: ' + (error as Error).message },
       { status: 500 }
     );
   }

@@ -5,4 +5,4 @@ const nextConfig = {
   transpilePackages: ['@excalidraw/excalidraw'],
 };
 
-module.exports = nextConfig;
+export default nextConfig;

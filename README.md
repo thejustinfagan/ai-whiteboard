@@ -1,75 +1,62 @@
 # AI Whiteboard
 
-**Excalidraw + Claude AI** = Turn sketches into functional specs, wireframes, diagrams, and user stories.
+**Excalidraw + NVIDIA NIM** — draw scenarios on your Surface, decipher with Hermes-style AI, review, and export agent-ready prompt loops.
 
 ## Features
 
-🎨 **Excalidraw Integration** - World-class whiteboard canvas  
-🤖 **AI-Powered Analysis** - Claude Sonnet 4 vision + reasoning  
-📋 **Multiple Output Modes:**
-- **Spec** - Functional specifications with data flow, components, requirements
-- **Wireframe** - UX/UI analysis with layout, components, navigation
-- **Diagram** - Technical architecture documentation
-- **Story** - Agile user stories with acceptance criteria
+- **Excalidraw canvas** with Surface pen detection
+- **NVIDIA NIM vision** (default) via `meta/llama-3.2-90b-vision-instruct`
+- **Optional Anthropic Claude** fallback
+- **Workflow pipeline:** Draw → Decipher → Review → Export
+- **Prompt pack export** — JSON for Hermes bots, Cursor agents, or custom loops
+- **Quick Generate** — one-shot spec/wireframe/diagram/story (legacy mode)
 
 ## Setup
 
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Add your Anthropic API key:
-```bash
-# Edit .env.local
-ANTHROPIC_API_KEY=sk-ant-...
-```
-
-3. Run dev server:
-```bash
+cp .env.example .env.local
+# Add your NVIDIA API key to .env.local
 npm run dev
 ```
 
-4. Open http://localhost:3000
+Open http://localhost:3000
 
-## Usage
+## Environment
 
-1. **Draw** on the Excalidraw canvas
-   - Boxes = components/services/screens
-   - Arrows = data flow/navigation
-   - Text = labels, notes, requirements
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NVIDIA_API_KEY` | Yes (default) | NVIDIA API key from [build.nvidia.com](https://build.nvidia.com) |
+| `NVIDIA_MODEL` | No | Vision model (default: `meta/llama-3.2-90b-vision-instruct`) |
+| `ANTHROPIC_API_KEY` | No | Optional Claude fallback |
+| `ANTHROPIC_MODEL` | No | Claude model override |
 
-2. **Select mode** (Spec / Wireframe / Diagram / Story)
+## Workflow
 
-3. **Click "Generate"** - Claude analyzes your sketch and produces:
-   - Functional specifications
-   - UI/UX analysis
-   - Architecture docs
-   - User stories with acceptance criteria
+1. **Draw** — sketch boxes, arrows, labels on the canvas (Surface pen supported)
+2. **Decipher** — Hermes-style structured extraction (entities, relationships, ambiguities)
+3. **Review** — AI critique with gaps, suggestions, and approval status
+4. **Export Loop** — download/copy `prompt_pack.json` with system prompt, user prompt, acceptance criteria, and agent loop steps
 
-## Tech Stack
+## API Routes
 
-- **Next.js 14** - React framework
-- **Excalidraw** - Canvas/whiteboard component
-- **Claude Sonnet 4** - Vision AI
-- **Tailwind CSS** - Styling
+| Route | Purpose |
+|-------|---------|
+| `POST /api/decipher` | Vision → Whiteboard IR JSON |
+| `POST /api/review` | Vision + IR → review JSON |
+| `POST /api/export` | IR + review → prompt pack |
+| `POST /api/generate` | Quick one-shot generation |
+| `GET /api/providers` | List configured providers |
 
 ## Deploy
+
+Railway/Vercel/Netlify — set `NVIDIA_API_KEY` in environment variables.
 
 ```bash
 npm run build
 npm run start
 ```
 
-Or deploy to Vercel/Railway/Netlify - just set `ANTHROPIC_API_KEY` in env vars.
-
-## Examples
-
-**System Diagram** → Architecture documentation  
-**Wireframe Sketch** → Component breakdown + navigation flow  
-**Feature Boxes** → User stories with acceptance criteria  
-**Data Flow** → Technical specification with API contracts
-
 ---
 
-Built by Barry 🚀
+Built by Barry
