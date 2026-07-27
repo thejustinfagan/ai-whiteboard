@@ -48,7 +48,23 @@ Open http://localhost:3000 — `NVIDIA_API_KEY` is in the committed `.env` file.
 
 ## Deploy
 
-Railway/Vercel/Netlify — set `NVIDIA_API_KEY` in environment variables.
+### Mac mini + Tailscale (recommended for personal use)
+
+Host on your Mac mini; open from Surface / phone / laptops over Tailscale.
+
+```bash
+chmod +x scripts/mac-mini/*.sh
+./scripts/mac-mini/install.sh
+./scripts/mac-mini/start.sh
+# optional always-on:
+./scripts/mac-mini/install-launchd.sh
+```
+
+Full steps: [docs/MAC_MINI_TAILSCALE.md](docs/MAC_MINI_TAILSCALE.md)
+
+### Cloud (optional)
+
+Railway / Vercel / Netlify — set `NVIDIA_API_KEY` in environment variables.
 
 ```bash
 npm run build

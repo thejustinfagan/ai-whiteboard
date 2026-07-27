@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "start:lan": "next start -H 0.0.0.0 -p 3000",
+    "mac:install": "./scripts/mac-mini/install.sh",
+    "mac:start": "./scripts/mac-mini/start.sh",
+    "mac:autostart": "./scripts/mac-mini/install-launchd.sh",
+    "mac:stop-autostart": "./scripts/mac-mini/uninstall-launchd.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
